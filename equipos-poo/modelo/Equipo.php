@@ -5,6 +5,11 @@ class Equipo {
     private $nombre = "";
     private $jugadores = [];
 
+    public function __construct($nombre){
+        echo "Estamos instanciando un objeto Equipo...<br/>";
+        $this->nombre = $nombre;
+    }
+
     public function setNombre($nombre){
         $this->nombre = $nombre;
     }

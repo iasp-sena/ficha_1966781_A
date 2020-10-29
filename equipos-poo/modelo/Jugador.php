@@ -6,10 +6,15 @@ class Jugador {
     private $nombre;
     private $posicion;
 
+    public function Jugador($numero, $nombre = NULL, $posicion = NULL){
+        $this->numero = $numero;
+        $this->nombre = $nombre;
+        $this->posicion = $posicion;
+    }
+
     public function jugar($nombre){
         echo "Estoy jugando con ... $nombre";
     }
-
 
     public function setNumero($numero){
         $this->numero = $numero;
@@ -35,6 +40,8 @@ class Jugador {
         return $this->posicion;
     }
 
-
+    public function __destruct(){
+        echo "Se está destruyendo el objeto Jugador " . $this->nombre . "<br/>";
+    }
 
 }
