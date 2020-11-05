@@ -10,11 +10,20 @@ $aprendiz = new Aprendiz();
 $administrativo = new Coordinador();
 $administrativo2 = new RecursoHumano();
 
-$instructor->registrar();
-$aprendiz->registrar();
+//$instructor->registrar();
+//$aprendiz->registrar();
+/*
+$administrativo->setSalario(1000);
+$administrativo2->setSalario(30000);
+Administrativo::setPropiedadClase(432423432);
+echo "*******************************************<br/>";
 $administrativo->registrar();
+echo "*******************************************<br/>";
 $administrativo2->registrar();
+echo "*******************************************<br/>";
+*/
 $administrativo->despedir();
+echo "*******************************************<br/>";
 $administrativo2->despedir();
 
 
