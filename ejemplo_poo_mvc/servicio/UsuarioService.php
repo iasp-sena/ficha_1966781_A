@@ -3,26 +3,47 @@
 class UsuarioService {
 
     public function consultarTodos(){
-        $usuario1 = new Usuario();
-        $usuario1->setId(1);
-        $usuario1->setNombres("Carlos");
-        $usuario1->setApellidos("Ramirez");
-
-        $usuario2 = new Usuario();
-        $usuario2->setId(2);
-        $usuario2->setNombres("Andres");
-        $usuario2->setApellidos("Díaz");
-
         $usuarios = [];
-        array_push($usuarios, $usuario1);
-        array_push($usuarios, $usuario2);
+
+        $pdo = ConexionDB::getPDO();
+        $stm = $pdo->prepare("SELECT u.*, td.codigo, td.descripcion FROM tbl_usuarios u INNER JOIN tbl_tipos_documentos td ON u.tipo_documento_id = td.id");
+        if($stm->execute()){
+            while($fila = $stm->fetch(PDO::FETCH_OBJ)){
+                array_push($usuarios, $this->toUsuario($fila));
+            }
+        }
 
         return $usuarios;
     }
 
     public function registrarUsuario($usuario){
-        echo "Registrando el usuario....<br/>";
-        echo $usuario->getNombres . " " . $usuario->getApellidos() . "<br/>";
+        $pdo = ConexionDB::getPDO();
+        $stm = $pdo->prepare("INSERT INTO tbl_usuarios (tipo_documento_id, numero_documento, nombres, apellidos, nombre_usuario, clave) VALUES (:tipoDocumentoId, :numeroDocumento, :nombres, :apellidos, :nombreUsuario, MD5(:clave))");
+        $stm->bindParam(":tipoDocumentoId", $usuario->getTipoDocumento(),PDO::PARAM_INT);
+        $stm->bindParam(":numeroDocumento", $usuario->getNumeroDocumento(),PDO::PARAM_STR,45);
+        $stm->bindParam(":nombres", $usuario->getNombres(),PDO::PARAM_STR);
+        $stm->bindParam(":apellidos", $usuario->getApellidos(),PDO::PARAM_STR);
+        $stm->bindParam(":nombreUsuario", $usuario->getNombreUsuario(),PDO::PARAM_STR,50);
+        $stm->bindParam(":clave", $usuario->getClave(),PDO::PARAM_STR,45);
+        
+        return $stm->execute();
+    }
+
+
+    private function toUsuario($filaInfoUsuario){
+        $tipoDocumento = new TipoDocumento();
+        $tipoDocumento->setId($filaInfoUsuario->tipo_documento_id);
+        $tipoDocumento->setCodigo($filaInfoUsuario->codigo);
+        $tipoDocumento->setDescripcion($filaInfoUsuario->descripcion);
+
+        $usuario = new Usuario();
+        $usuario->setId($filaInfoUsuario->id);
+        $usuario->setTipoDocumento($tipoDocumento);
+        $usuario->setNumeroDocumento($filaInfoUsuario->numero_documento);
+        $usuario->setNombres($filaInfoUsuario->nombres);
+        $usuario->setApellidos($filaInfoUsuario->apellidos);
+        $usuario->setNombreUsuario($filaInfoUsuario->nombre_usuario);
+        return $usuario;
     }
 
 }

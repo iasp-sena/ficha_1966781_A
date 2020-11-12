@@ -14,3 +14,4 @@ define("DIR_SERVICE", APP_ROOT. "/servicio/");
 
 
 include("autoload.php");
+include("funciones.php");

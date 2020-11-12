@@ -1,29 +1,41 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Usuarios - Listar</title>
 
-    <!-- Compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"/>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
-</head>
-<body>
 <div class="row">
     <form class="col s12" action="<?= CONTEXT_ROOT . '/index.php' ?>" method="GET">
-        <input type="hidden" name="controller" value="UsuarioController" />
+        <input type="hidden" name="controller" value="Usuario" />
         <input type="hidden" name="method" value="registrar" />
       <div class="row">
-        <div class="input-field col s12">
-          <input id="nombres" name="nombres" type="text" class="validate">
-          <label for="nombres">Nombres</label>
+        <div class="input-field col s6">
+          <select name="tipoDocumento">
+            <option value="" disabled selected>Seleccione el tipo de documento</option>
+            <?php foreach($data["tiposDocumentos"] as $td) { ?>
+            <option value="<?= $td->getId() ?>"><?= $td->getDescripcion() ?></option>
+            <?php } ?>
+          </select>
+          <label>Materialize Select</label>
+        </div>
+        <div class="input-field col s6">
+          <input id="numeroDocumento" name="numeroDocumento" type="number" class="validate">
+          <label for="numeroDocumento">Número documento</label>
         </div>
       </div>
       <div class="row">
-        <div class="input-field col s12">
+        <div class="input-field col s6">
+          <input id="nombres" name="nombres" type="text" class="validate">
+          <label for="nombres">Nombres</label>
+        </div>
+        <div class="input-field col s6">
           <input id="apellidos" name="apellidos" type="text" class="validate">
           <label for="apellidos">Apellidos</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s6">
+          <input id="nombreUsuario" name="nombreUsuario" type="text" class="validate">
+          <label for="nombreUsuario">Nombre usuario</label>
+        </div>
+        <div class="input-field col s6">
+          <input id="clave" name="clave" type="password" class="validate">
+          <label for="clave">Clave</label>
         </div>
       </div>
       <div class="row">
@@ -34,13 +46,4 @@
         </div>
       </div>
     </form>
-  </div>
-
-    <!-- Compiled and minified JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-
-    <?php if ($mensaje){ ?>
-        <script>M.toast({html: '<?= $mensaje ?>'})</script>
-    <?php } ?>
-</body>
-</html>
+</div>
