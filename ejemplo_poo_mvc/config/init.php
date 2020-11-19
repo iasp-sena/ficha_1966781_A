@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 define("CONTEXT_ROOT","/1966781A/ejemplo_poo_mvc");
 

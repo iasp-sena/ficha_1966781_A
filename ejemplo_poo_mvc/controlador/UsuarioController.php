@@ -32,12 +32,12 @@ class UsuarioController {
 
     public function registrar(){
         $usuario = new Usuario();
-        $usuario->setTipoDocumento($_GET["tipoDocumento"]);
-        $usuario->setNumeroDocumento($_GET["numeroDocumento"]);
-        $usuario->setNombres($_GET["nombres"]);
-        $usuario->setApellidos($_GET["apellidos"]);
-        $usuario->setNombreUsuario($_GET["nombreUsuario"]);
-        $usuario->setClave($_GET["clave"]);
+        $usuario->setTipoDocumento($_POST["tipoDocumento"]);
+        $usuario->setNumeroDocumento($_POST["numeroDocumento"]);
+        $usuario->setNombres($_POST["nombres"]);
+        $usuario->setApellidos($_POST["apellidos"]);
+        $usuario->setNombreUsuario($_POST["nombreUsuario"]);
+        $usuario->setClave($_POST["clave"]);
 
         $rta = self::$usuarioServicio->registrarUsuario($usuario);
 

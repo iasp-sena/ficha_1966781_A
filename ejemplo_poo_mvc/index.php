@@ -5,7 +5,11 @@ $nombreClase = $_GET["controller"];//"Index";
 $nombreMetodo = $_GET["method"];//"index";
 
 if($nombreClase){
-    $nombreClase .= "Controller";
-    $controlador = new $nombreClase();
-    $controlador->$nombreMetodo();
+    if(Session::validar($nombreClase, $nombreMetodo)){
+        $nombreClase .= "Controller";
+        $controlador = new $nombreClase();
+        $controlador->$nombreMetodo();
+    } else{
+        redirect("Login","ingresar");
+    }
 }

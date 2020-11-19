@@ -2,6 +2,24 @@
 
 class UsuarioService {
 
+    public function consultarLogin($nombreUsuario, $clave){
+        $usuario = null;
+
+        $pdo = ConexionDB::getPDO();
+        $stm = $pdo->prepare("SELECT u.*, td.codigo, td.descripcion FROM tbl_usuarios u INNER JOIN tbl_tipos_documentos td ON u.tipo_documento_id = td.id WHERE u.nombre_usuario=:nombreUsuario AND u.clave = MD5(:clave)");
+        $stm->bindValue(":nombreUsuario", $nombreUsuario);
+        $stm->bindValue(":clave", $clave);
+        if($stm->execute()){
+            if($fila = $stm->fetch(PDO::FETCH_OBJ)){
+                $usuario = $this->toUsuario($fila);
+            }
+        } else{
+            print_r($stm->errorInfo());
+        }
+
+        return $usuario;
+    }
+
     public function consultarTodos(){
         $usuarios = [];
 
@@ -19,12 +37,12 @@ class UsuarioService {
     public function registrarUsuario($usuario){
         $pdo = ConexionDB::getPDO();
         $stm = $pdo->prepare("INSERT INTO tbl_usuarios (tipo_documento_id, numero_documento, nombres, apellidos, nombre_usuario, clave) VALUES (:tipoDocumentoId, :numeroDocumento, :nombres, :apellidos, :nombreUsuario, MD5(:clave))");
-        $stm->bindParam(":tipoDocumentoId", $usuario->getTipoDocumento(),PDO::PARAM_INT);
-        $stm->bindParam(":numeroDocumento", $usuario->getNumeroDocumento(),PDO::PARAM_STR,45);
-        $stm->bindParam(":nombres", $usuario->getNombres(),PDO::PARAM_STR);
-        $stm->bindParam(":apellidos", $usuario->getApellidos(),PDO::PARAM_STR);
-        $stm->bindParam(":nombreUsuario", $usuario->getNombreUsuario(),PDO::PARAM_STR,50);
-        $stm->bindParam(":clave", $usuario->getClave(),PDO::PARAM_STR,45);
+        $stm->bindValue(":tipoDocumentoId", $usuario->getTipoDocumento(),PDO::PARAM_INT);
+        $stm->bindValue(":numeroDocumento", $usuario->getNumeroDocumento(),PDO::PARAM_STR);
+        $stm->bindValue(":nombres", $usuario->getNombres(),PDO::PARAM_STR);
+        $stm->bindValue(":apellidos", $usuario->getApellidos(),PDO::PARAM_STR);
+        $stm->bindValue(":nombreUsuario", $usuario->getNombreUsuario(),PDO::PARAM_STR);
+        $stm->bindValue(":clave", $usuario->getClave(),PDO::PARAM_STR);
         
         return $stm->execute();
     }

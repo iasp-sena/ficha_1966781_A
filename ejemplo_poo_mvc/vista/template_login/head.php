@@ -18,28 +18,9 @@
         <li class="divider"></li>
         <li><a href="<?= getUrlControllerMethod('Usuario','registro') ?>">Registro</a></li>
     </ul>
-    <ul id="subMenuPerfil" class="dropdown-content">
-        <li><a href="<?= getUrlControllerMethod('Login','salir') ?>">Cerrar sesión</a></li>
-    </ul>
     <nav>
         <div class="nav-wrapper">
             <a href="#!" class="brand-logo">Logo</a>
-            <ul class="right hide-on-med-and-down">
-                <!-- Dropdown Trigger -->
-                <li>
-                    <a class="dropdown-trigger" href="#!" data-target="subMenuUsuarios">
-                        Usuarios<i class="material-icons right">arrow_drop_down</i>
-                    </a>
-                </li>
-                <li><a href="#">Productos</a></li>
-                <li><a href="#">Ventas</a></li>
-
-                <li>
-                    <a class="dropdown-trigger" href="#!" data-target="subMenuPerfil">
-                        <?= Session::getUser()->getNombres() ?><i class="material-icons right">arrow_drop_down</i>
-                    </a>
-                </li>
-            </ul>
         </div>
     </nav>
     <h4><?= $data["titulo"] ?></h4>

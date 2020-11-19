@@ -4,7 +4,7 @@ class ConexionDB {
 
     private static $pdo;
 
-    private function ConexionDB(){
+    private function _contruct(){
 
     }
 
